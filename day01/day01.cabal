@@ -11,7 +11,7 @@ executable day01
     -threaded
     -rtsopts -with-rtsopts=-N
   data-files:
-    input.txt
+    input
   build-depends:
     base >=4.7 && <5,
     containers
