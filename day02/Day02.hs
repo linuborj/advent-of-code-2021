@@ -45,7 +45,7 @@ readInput = do
   return . parser $ content
 
 move :: (Int, Int) -> Movement -> (Int, Int)
-move  (x, y) = \case
+move (x, y) = \case
   Movement Forward n -> (x + n, y)
   Movement Up n      -> (x, y - n)
   Movement Down n    -> (x, y + n)
@@ -57,7 +57,21 @@ part1 = do
   putStr "Part1: "
   print $ uncurry (*) position
 
+move' :: ((Int, Int), Int) -> Movement -> ((Int, Int), Int)
+move' ((x, y), d) = \case
+  Movement Forward n -> ((x + n, y + d * n), d)
+  Movement Up n      -> ((x, y), d - n)
+  Movement Down n    -> ((x, y), d + n)
+
+part2 :: IO ()
+part2 = do
+  movements <- readInput
+  let position = foldl move' ((0, 0), 0) movements
+  putStr "Part2: "
+  print . uncurry (*) . fst $ position
+
 main :: IO ()
 main = do
   part1 -- prints 'Part1: 1924923'
+  part2 -- prints 'Part1: 1982495697'
 
