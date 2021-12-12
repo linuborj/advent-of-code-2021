@@ -15,10 +15,14 @@ part1 = do
 
 part2 :: IO ()
 part2 = do
+  lines <- readInput
+  let chart = foldl registerLine emptyChart lines
+      points = chart `pointsWhere` (>1)
   putStr "Part2: "
+  print $ length points
 
 main :: IO ()
 main = do
   part1 -- prints 'Part1: 5145'
-  part2 -- prints 'Part2: '
+  part2 -- prints 'Part2: 16518'
 
