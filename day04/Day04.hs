@@ -1,9 +1,11 @@
+{-# LANGUAGE TupleSections #-}
 module Main where
 
 import Input (readInput)
 import qualified Number
 import qualified Board
 import Board (Board)
+import qualified Data.Maybe as Maybe
 
 newtype Game = Game { boards :: [Board.Board] }
   deriving (Show, Eq)
@@ -11,37 +13,33 @@ newtype Game = Game { boards :: [Board.Board] }
 mark :: Game -> Int -> Game
 mark (Game boards) n = Game $ map (`Board.mark` n) boards
 
-winner :: Game -> Maybe Board
-winner (Game boards) = case filter Board.isWinner boards of
-  []  -> Nothing
-  [x] -> Just x
-  _   -> error "Only one boards can win at a time"
-
-winningScore :: Game -> Int -> Maybe Int
-winningScore game n = do
-  board <- winner game
-  board `Board.score` n
-
-firstWinningScore :: Game -> [Int] -> Maybe Int
-firstWinningScore (Game boards) [] = Nothing
-firstWinningScore game (x:xs) = maybe nextPlay return score
+extractWinners :: Game -> (Game, [Board])
+extractWinners (Game boards) = (Game nonWinners, winners)
   where
-    game' = game `mark` x
-    score = winningScore game' x
-    nextPlay = firstWinningScore game' xs
+    nonWinners = filter (not . Board.isWinner) boards
+    winners = filter Board.isWinner boards
 
+winners :: Game -> [Int] -> [Int]
+winners game [] = []
+winners game (x:xs) = scores ++ winners game' xs
+  where
+    (game', boards) = extractWinners $ game `mark` x
+    scores = Maybe.mapMaybe (`Board.score` x) boards
 
 part1 :: IO ()
 part1 = do
-  putStr "Part1: "
   (draws, boards) <- readInput
-  print $ firstWinningScore (Game boards) draws
+  putStr "Part1: "
+  print . head . winners (Game boards) $ draws
 
+lastWinningScore :: Game -> [Int] -> Maybe Int
+lastWinningScore game = undefined
 
 part2 :: IO ()
 part2 = do
+  (draws, boards) <- readInput
   putStr "Part2: "
-
+  print . last . winners (Game boards) $ draws
 
 main :: IO ()
 main = do
