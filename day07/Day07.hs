@@ -23,17 +23,19 @@ readInput = do
 part1 :: IO ()
 part1 = do
   input <- readInput
-  let f = costFunction id
+  let f = costFunction const
   putStr "Part1: "
   print . minimum $ fuelCosts f input
 
 part2 :: IO ()
 part2 = do
-  putStr "Part2: "
-
+  input <- readInput
+  let f = costFunction $ \count stepCost -> count + stepCost
+  putStr "Part2 "
+  print . minimum $ fuelCosts f input
 
 main :: IO ()
 main = do
   part1 -- prints 'Part1: 343441'
-  part2 -- prints 'Part2: '
+  part2 -- prints 'Part2: 98925151'
 

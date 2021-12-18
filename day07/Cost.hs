@@ -10,17 +10,19 @@ import Data.Map (Map)
 
 data Accumulator = Accumulator
   { position :: Position
-  , tally :: Count
-  , total :: Cost
+  , tally    :: Count
+  , total    :: Cost
+  , stepCost :: Cost
   } deriving (Show, Eq)
 
 accumulate :: CostFunction -> Accumulator -> (Position, Count) -> Accumulator
-accumulate f Accumulator { tally, total } (position, count) = let tally' = tally + count 
-                                                                  total' = total + f tally
-                                                              in Accumulator position tally' total'
+accumulate f Accumulator { tally, total, stepCost } (position, count) = let stepCost' = f tally stepCost
+                                                                            tally' = tally + count 
+                                                                            total' = total + stepCost'
+                                                                        in Accumulator position tally' total' stepCost'
 
 scanLeft' :: CostFunction -> State -> [Position] -> [Accumulator]
-scanLeft' f state positions = scanl (accumulate f) (Accumulator postion0 count0 0) steps
+scanLeft' f state positions = scanl (accumulate f) (Accumulator postion0 count0 0 0) steps
   where
     (postion0, count0):steps = map (\position -> (position, state `count` position)) positions
 

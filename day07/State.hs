@@ -51,8 +51,8 @@ range State { chart } = [minPosition..maxPosition]
     minPosition  = fst $ Map.findMin chart
     maxPosition  = fst $ Map.findMax chart
 
-type CostFunction = Count -> Cost
+type CostFunction = Count -> Cost -> Cost
 
-costFunction :: (Integer -> Integer) -> CostFunction
-costFunction f (Count count) = Cost $ f count
+costFunction :: (Integer -> Integer -> Integer) -> CostFunction
+costFunction f (Count count) (Cost cost) = Cost $ f count cost
 
