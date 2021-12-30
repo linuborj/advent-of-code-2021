@@ -21,16 +21,17 @@ part1 :: IO ()
 part1 = do
   input <- readInput
   putStr "Part1: "
-  print . length . Explore.paths $ input
+  print . length . Explore.paths Explore.SmallNodesMayOnlyBeVisitedOnce $ input
 
 
 part2 :: IO ()
 part2 = do
   input <- readInput
   putStr "Part2: "
+  print . length . Explore.paths Explore.ASingleSmallNodeMayBeVisitedTwcice $ input
 
 main :: IO ()
 main = do
   part1 -- prints 'Part1: 4304'
-  part2 -- prints 'Part2: '
+  part2 -- prints 'Part2: 118242'
 
