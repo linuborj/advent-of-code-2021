@@ -14,6 +14,9 @@ executable day08
     input
   other-modules:
     Paths_day08
+    Digit
+    Signal
+    Encoder
   build-depends:
     base >=4.7 && <5,
     containers
