@@ -14,6 +14,7 @@ executable day14
     input
   other-modules:
     Paths_day14
+    State
   build-depends:
     base >=4.7 && <5,
     containers
