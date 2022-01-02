@@ -14,10 +14,10 @@ executable day15
     input
   other-modules:
     Paths_day15
-    LeastCostTree
     Dijkstra
     Graph
-    PriorityQueue
+    IntPQueue
+    LeastCostTree
   build-depends:
     base >=4.7 && <5,
     containers
