@@ -1,0 +1,21 @@
+cabal-version: 1.12
+
+name:           day18
+version:        0.0.0
+build-type:     Simple
+
+executable day18
+  main-is: Day18.hs
+  ghc-options:
+    -O2
+    -threaded
+    -rtsopts -with-rtsopts=-N
+  data-files:
+    input
+  other-modules:
+    Paths_day18
+    Tree
+  build-depends:
+    base >=4.7 && <5,
+    containers
+  default-language: Haskell2010
