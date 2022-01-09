@@ -14,6 +14,8 @@ executable day20
     input
   other-modules:
     Paths_day20
+    Bit
+    Image
   build-depends:
     base >=4.7 && <5,
     containers
