@@ -14,6 +14,7 @@ library
     Data.Graph.Search
     Data.Vector.V2
     Text.ParserCombinators.ReadP.Unambiguous
+    Text.Subscript
   build-depends:
     base >=4.7 && <5,
     hashable,

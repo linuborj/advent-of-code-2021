@@ -1,5 +1,6 @@
 module Text.ParserCombinators.ReadP.Unambiguous
   ( ReadP
+  , nat
   , int
   , many
   , many1
@@ -20,11 +21,14 @@ import Text.ParserCombinators.ReadP hiding (many, many1, sepBy, sepBy1)
 import qualified Text.ParserCombinators.ReadP as ReadP
 import qualified Data.Char as Char
 
+nat :: (Integral a, Read a) => ReadP a
+nat = read <$> many1 (satisfy Char.isDigit)
 
 int :: (Integral a, Read a) => ReadP a
-int = negate <$> (char '-' *> nonNegativeInt)
-  where
-    nonNegativeInt = read <$> many1 (satisfy Char.isDigit)
+int = foldl1 (<++)
+  [ nat
+  , negate <$> (char '-' *> nat)
+  ]
 
 many :: ReadP a -> ReadP [a]
 many parser = foldl1 (<++)
